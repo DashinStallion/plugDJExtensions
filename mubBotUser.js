@@ -72,56 +72,5 @@ botMethods.getID = function(username){
 }
 
 
-
-botMethods.chatEvent = function(data){
-	command = false; var chatCommand = "";
-	var permission = botMethods.getPermissions(data.fromID);
-	if(data.message.indexOf("!") === 0) command = true;
-	if(command){
-
-		chatCommand = data.message.substring(1);
-		var commands = chatCommand.split(" ");
-		commands.push("undefined");
-		
-		for(var i = 2; i < commands.length; i++){
-			if(commands[i] !== "undefined") commands[1] = commands[1] + " " + commands[i];
-		}
-
-	
-				case "access":
-					if(commands[1] !== "undefined"){
-						if(commands[1].indexOf("@") === 0) commands[1] = commands[1].substring(1);
-						if(permission > 0){
-
-							var userPermission = botMethods.getPermissions(botMethods.getID(commands[1]));
-							userPermission === 0 ? API.sendChat("This user has no bot permissions") : API.sendChat("This user has level " + userPermission + " access");
-
-						}else{
-							API.sendChat("You must be at least a trusted bot user to check others access levels!");
-						}
-					}else{
-						API.sendChat("@" + data.from + ", you have level " + permission + " access");
-					}
-				break;
-
-			
-
-				case "version":
-					API.sendChat("mubBot user shell version " + mubBot.misc.version);
-				break;
-
-			
-
-				case "origin":
-				case "author":
-				case "authors":
-				case "creator":
-					API.sendChat(mubBot.misc.origin);
-				break;
-
-			
-			}
-		}
-	
 botMethods.loadStorage();
 console.log("Running mubBot User Shell version " + mubBot.misc.version);
